@@ -85,9 +85,12 @@ int main(int argc, char **argv)
     else // Read the dataset configured in config.yaml file
     {
         const string dataset_dir = config_dataset.get<string>("dataset_dir");
+        const string fig_name_format = config.get<string>("fig_name_format");
         const int num_images = config_dataset.get<int>("num_images");
+
         constexpr bool is_print_res = false;
-        const string image_formatting = "/rgb_%05d.png";
+//        const string image_formatting = "/rgb_%05d.png";
+        const string image_formatting = fig_name_format;
         image_paths = vo::readImagePaths(dataset_dir, num_images, image_formatting, is_print_res);
     }
 

@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
-    <generated />
+    <generated>
+      <config projectName="myslam" targetName="vo" />
+      <config projectName="myslam" targetName="geometry" />
+      <config projectName="myslam" targetName="basics" />
+      <config projectName="myslam" targetName="run_vo" />
+      <config projectName="myslam" targetName="display" />
+      <config projectName="myslam" targetName="optimization" />
+    </generated>
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -24,6 +31,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -46,12 +54,45 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="CMakeSettings" />
   </component>
-  <component name="RunManager">
-    <configuration name="run_vo" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="../config/config.yaml" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Project" TARGET_NAME="run_vo" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Project" RUN_TARGET_NAME="run_vo">
+  <component name="RunManager" selected="CMake Application.run_vo">
+    <configuration name="basics" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="myslam" TARGET_NAME="basics" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="display" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="myslam" TARGET_NAME="display" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="geometry" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="myslam" TARGET_NAME="geometry" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="optimization" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="myslam" TARGET_NAME="optimization" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_vo" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="../config/config.yaml" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="myslam" TARGET_NAME="run_vo" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="myslam" RUN_TARGET_NAME="run_vo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="vo" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="myslam" TARGET_NAME="vo" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.run_vo" />
+      <item itemvalue="CMake Application.basics" />
+      <item itemvalue="CMake Application.display" />
+      <item itemvalue="CMake Application.geometry" />
+      <item itemvalue="CMake Application.optimization" />
+      <item itemvalue="CMake Application.vo" />
+    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -67,7 +108,7 @@
       <workItem from="1591602705718" duration="2138000" />
       <workItem from="1591604953454" duration="705000" />
       <workItem from="1591607218898" duration="15203000" />
-      <workItem from="1591668738670" duration="8364000" />
+      <workItem from="1591668738670" duration="11013000" />
     </task>
     <servers />
   </component>
@@ -83,38 +124,38 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="801" y="271" width="667" height="562" key="#com.intellij.ide.util.MemberChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1591670248941" />
-    <state width="1807" height="344" key="GridCell.Tab.0.bottom" timestamp="1591679477714">
+    <state width="1807" height="344" key="GridCell.Tab.0.bottom" timestamp="1591680922930">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="344" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1591679477714" />
-    <state width="1807" height="344" key="GridCell.Tab.0.center" timestamp="1591679477712">
+    <state width="1807" height="344" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1591680922930" />
+    <state width="1807" height="344" key="GridCell.Tab.0.center" timestamp="1591680922929">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="344" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1591679477712" />
-    <state width="1807" height="344" key="GridCell.Tab.0.left" timestamp="1591679477711">
+    <state width="1807" height="344" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1591680922929" />
+    <state width="1807" height="344" key="GridCell.Tab.0.left" timestamp="1591680922929">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="344" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1591679477711" />
-    <state width="1807" height="344" key="GridCell.Tab.0.right" timestamp="1591679477713">
+    <state width="1807" height="344" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1591680922929" />
+    <state width="1807" height="344" key="GridCell.Tab.0.right" timestamp="1591680922930">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="344" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1591679477713" />
-    <state width="1807" height="344" key="GridCell.Tab.1.bottom" timestamp="1591679433100">
+    <state width="1807" height="344" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1591680922930" />
+    <state width="1807" height="344" key="GridCell.Tab.1.bottom" timestamp="1591680922931">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="344" key="GridCell.Tab.1.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1591679433100" />
-    <state width="1807" height="344" key="GridCell.Tab.1.center" timestamp="1591679433098">
+    <state width="1807" height="344" key="GridCell.Tab.1.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1591680922931" />
+    <state width="1807" height="344" key="GridCell.Tab.1.center" timestamp="1591680922930">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="344" key="GridCell.Tab.1.center/67.27.1853.1053@67.27.1853.1053" timestamp="1591679433098" />
-    <state width="1807" height="344" key="GridCell.Tab.1.left" timestamp="1591679433097">
+    <state width="1807" height="344" key="GridCell.Tab.1.center/67.27.1853.1053@67.27.1853.1053" timestamp="1591680922930" />
+    <state width="1807" height="344" key="GridCell.Tab.1.left" timestamp="1591680922930">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="344" key="GridCell.Tab.1.left/67.27.1853.1053@67.27.1853.1053" timestamp="1591679433097" />
-    <state width="1807" height="344" key="GridCell.Tab.1.right" timestamp="1591679433099">
+    <state width="1807" height="344" key="GridCell.Tab.1.left/67.27.1853.1053@67.27.1853.1053" timestamp="1591680922930" />
+    <state width="1807" height="344" key="GridCell.Tab.1.right" timestamp="1591680922931">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="344" key="GridCell.Tab.1.right/67.27.1853.1053@67.27.1853.1053" timestamp="1591679433099" />
+    <state width="1807" height="344" key="GridCell.Tab.1.right/67.27.1853.1053@67.27.1853.1053" timestamp="1591680922931" />
     <state x="698" y="220" key="SettingsEditor" timestamp="1591607413730">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
