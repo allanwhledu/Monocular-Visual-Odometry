@@ -40,6 +40,8 @@ void VisualOdometry::addFrame(Frame::Ptr frame)
         printf("Number of matches with the 1st frame: %d\n", (int)curr_->matches_with_ref_.size());
 
         // Estimae motion and triangulate points
+//        这里应该是估计相机运动，并且获得匹配点的3D坐标
+//应该是初始化的时候才需要用三角测量，之后tracking的时候都是用pnp了是吧？
         estimateMotionAnd3DPoints_();
         printf("Number of inlier matches: %d\n", (int)curr_->inliers_matches_for_3d_.size());
 
@@ -64,7 +66,7 @@ void VisualOdometry::addFrame(Frame::Ptr frame)
     {
         printf("\nDoing tracking\n");
         curr_->T_w_c_ = ref_->T_w_c_.clone(); // Initial estimation of the current pose
-        bool is_pnp_good = poseEstimationPnP_();
+        bool is_pnp_good = poseEstimationPnP_(); //这里面要是实现特征点的检测、描述子的获取、特征点的匹配、3D坐标的获取，最后是PNP
         if (!is_pnp_good) // pnp failed. Print log.
         {
             int num_matches = curr_->matches_with_map_.size();

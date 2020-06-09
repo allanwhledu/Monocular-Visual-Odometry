@@ -74,7 +74,7 @@ private:
   vector<int> matched_pts_2d_idx_;
 
   // Parameters
-  const int kBuffSize_ = 20; // How much prev frames to store.
+  const int kBuffSize_ = 40; // How much prev frames to store.
 
 private: // functions
   // Push a frame to the buff.

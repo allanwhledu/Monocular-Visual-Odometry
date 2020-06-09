@@ -20,10 +20,13 @@ Frame::Ptr Frame::createFrame(cv::Mat rgb_img, geometry::Camera::Ptr camera, dou
 
 bool Frame::isInFrame(const cv::Point3f &p_world)
 {
+    // 世界坐标到相机坐标
     cv::Point3f p_cam = basics::preTranslatePoint3f(p_world, T_w_c_.inv()); // T_c_w * p_w = p_c
     if (p_cam.z < 0)
         return false;
+    // 相机坐标到像素坐标
     cv::Point2f pixel = geometry::cam2pixel(p_cam, camera_->K_);
+    // 确定是否是投影到了有效的像素区域内？
     return pixel.x > 0 && pixel.y > 0 && pixel.x < rgb_img_.cols && pixel.y < rgb_img_.rows;
 }
 bool Frame::isInFrame(const cv::Mat &p_world)

@@ -85,7 +85,7 @@ int main(int argc, char **argv)
     else // Read the dataset configured in config.yaml file
     {
         const string dataset_dir = config_dataset.get<string>("dataset_dir");
-        const string fig_name_format = config.get<string>("fig_name_format");
+        const string fig_name_format = config_dataset.get<string>("fig_name_format");
         const int num_images = config_dataset.get<int>("num_images");
 
         constexpr bool is_print_res = false;

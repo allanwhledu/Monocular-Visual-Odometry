@@ -88,6 +88,7 @@ void matchFeatures(
     vector<cv::DMatch> &matches,
     bool is_print_res)
 {
+    // 按道理应该是对当前帧进行检测吧。
     // -- Set arguments
     static const double match_ratio = basics::Config::get<int>("match_ratio");
     static const double dist_ratio = basics::Config::get<int>("lowe_dist_ratio");
@@ -104,7 +105,9 @@ void matchFeatures(
         // For kpt_i, if kpt_j's descriptor if most similar to kpt_i's, then they are matched.
     {
         vector<cv::DMatch> all_matches;
-        matcher_flann.match(descriptors_1, descriptors_2, all_matches);
+//        matcher_flann.match(descriptors_1, descriptors_2, all_matches);
+//这里都换回bf的matcher吧，试一试。
+        matcher_bf->match(descriptors_1, descriptors_2, all_matches);
 
         // Find a min-distance threshold for selecting good matches
         for (int i = 0; i < all_matches.size(); i++)
@@ -115,7 +118,8 @@ void matchFeatures(
             if (dist > max_dis)
                 max_dis = dist;
         }
-        distance_threshold = std::max<float>(min_dis * match_ratio, 30.0);
+        distance_threshold = std::max<float>(min_dis * match_ratio, 50.0);
+        // 这里将经验30调到了50
         // Another way of getting the minimum:
         // min_dis = std::min_element(all_matches.begin(), all_matches.end(),
         //     [](const cv::DMatch &m1, const cv::DMatch &m2) {return m1.distance < m2.distance;})->distance;
@@ -124,6 +128,11 @@ void matchFeatures(
         for (cv::DMatch &m : all_matches)
             if (m.distance < distance_threshold)
                 matches.push_back(m);
+
+//        // 尝试不要使用good matche过滤
+//        // 的确会多一些匹配点，但是也会丢失；而且在matlab数据集上效果变差
+//        for (cv::DMatch &m : all_matches)
+//            matches.push_back(m);
     }
     else if (feature_matching_method_index == 2)
     { // method in Lowe's 2004 paper

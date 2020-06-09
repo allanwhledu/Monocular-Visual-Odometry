@@ -19,6 +19,7 @@ void VisualOdometry::getMappointsInCurrentView_(
 {
     // vector<MapPoint::Ptr> candidate_mappoints_in_map;
     // cv::Mat corresponding_mappoints_descriptors;
+    // 先把两个点和描述子都清空
     candidate_mappoints_in_map.clear();
     corresponding_mappoints_descriptors.release();
     for (auto &iter_map_point : map_->map_points_)
@@ -253,11 +254,13 @@ bool VisualOdometry::checkLargeMoveForAddKeyFrame_(Frame::Ptr curr, Frame::Ptr r
 bool VisualOdometry::poseEstimationPnP_()
 {
     // -- From the local map, find the keypoints that fall into the current view
+    // todo 这一步是干啥用的？是找到已经有3D坐标的已知地图点？然后赋值其世界坐标和描述子
     vector<MapPoint::Ptr> candidate_mappoints_in_map;
     cv::Mat corresponding_mappoints_descriptors;
     getMappointsInCurrentView_(candidate_mappoints_in_map, corresponding_mappoints_descriptors);
 
     // -- Compare descriptors to find matches, and extract 3d 2d correspondance
+    // 这里是要去找到3D和2D之间的匹配，和2D-2D匹配是不太一样的。
     geometry::matchFeatures(corresponding_mappoints_descriptors, curr_->descriptors_, curr_->matches_with_map_);
     const int num_matches = curr_->matches_with_map_.size();
     cout << "Number of 3d-2d pairs: " << num_matches << endl;

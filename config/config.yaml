@@ -11,6 +11,7 @@ dataset_name: "kitti00"
 
 matlab: # New Tsukuba Stereo dataset used in matlab tutorial  
 
+  fig_name_format: "/rgb_%05d.png"
   # -- Data dir
   dataset_dir: /home/sjtu_wanghaili/Monocular-Visual-Odometry/data/dataset_images_matlab
   num_images: 150
@@ -32,7 +33,8 @@ matlab: # New Tsukuba Stereo dataset used in matlab tutorial
 
 kitti00: # kitti00 dataset
   # https://vision.in.tum.de/data/datasets/rgbd-dataset/file_formats
-  
+
+  fig_name_format: "/%06d.png"
   # -- Data dir
   dataset_dir: /home/sjtu_wanghaili/Monocular-Visual-Odometry/data/SLAM_TEST_DATA/00/image_0
   num_images: 4000
@@ -53,8 +55,6 @@ kitti00: # kitti00 dataset
 # ================================================
 # =============== General settings =============== 
 # ================================================
-#fig_name_format: "/rgb_%05d.png"
-fig_name_format: "/%06d.png"
 max_num_imgs_to_proc: 500
 # is_pcl_wait_for_keypress: "true" # If true, PCL Viewer will stop after each update, and wait for your keypress.
 is_pcl_wait_for_keypress: "false"
@@ -112,7 +112,7 @@ max_possible_dist_to_prev_keyframe: 10
 
 # ------------------- Optimization -------------------
 is_enable_ba: "true"                 # Use bundle adjustment for camera and points in single frame. 1 for true, 0 for false
-num_prev_frames_to_opti_by_ba: 10      # default 5; <= 20. I set the "kBuffSize_" in "vo.h" as 20, so only previous 20 frames are stored.
+num_prev_frames_to_opti_by_ba: 20      # default 5; <= 40. I set the "kBuffSize_" in "vo.h" as 20, so only previous 20 frames are stored.
 information_matrix: "1.0 0.0 0.0 1.0"
 is_ba_fix_map_points: "true" # TO DEBUG: If I set it to true and optimize both camera pose and map points, there is huge error.
 # UPDATE_MAP_PTS: "" # This equals (!is_ba_fix_map_points) by default

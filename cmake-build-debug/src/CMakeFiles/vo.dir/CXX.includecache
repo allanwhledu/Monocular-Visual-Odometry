@@ -170,20 +170,6 @@ my_slam/common_include.h
 my_slam/basics/yaml.h
 ../include/my_slam/vo/my_slam/basics/yaml.h
 
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/frame.cpp
-my_slam/vo/frame.h
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/my_slam/vo/frame.h
-
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/map.cpp
-my_slam/vo/map.h
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/my_slam/vo/map.h
-
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/mappoint.cpp
-my_slam/common_include.h
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/my_slam/common_include.h
-my_slam/vo/mappoint.h
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/my_slam/vo/mappoint.h
-
 /home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/vo.cpp
 my_slam/vo/vo.h
 /home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/my_slam/vo/vo.h
@@ -195,20 +181,4 @@ numeric
 /home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/vo_addFrame.cpp
 my_slam/vo/vo.h
 /home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/my_slam/vo/vo.h
-
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/vo_commons.cpp
-my_slam/vo/vo_commons.h
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/my_slam/vo/vo_commons.h
-
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/vo_io.cpp
-my_slam/vo/vo_io.h
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/my_slam/vo/vo_io.h
-my_slam/basics/yaml.h
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/my_slam/basics/yaml.h
-iostream
--
-boost/format.hpp
--
-fstream
--
 
