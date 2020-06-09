@@ -5,8 +5,8 @@
 # ==============================================
 
 # Choose one of the following two dataset.
-dataset_name: "matlab"
-#dataset_name: "kitti00"
+#dataset_name: "matlab"
+dataset_name: "kitti00"
 #两个数据集的图片命名方式不同，前往run_vo.cpp更改读取图片名称
 
 matlab: # New Tsukuba Stereo dataset used in matlab tutorial  
@@ -53,8 +53,8 @@ kitti00: # kitti00 dataset
 # ================================================
 # =============== General settings =============== 
 # ================================================
-fig_name_format: "/rgb_%05d.png"
-#fig_name_format: "/%06d.png"
+#fig_name_format: "/rgb_%05d.png"
+fig_name_format: "/%06d.png"
 max_num_imgs_to_proc: 500
 # is_pcl_wait_for_keypress: "true" # If true, PCL Viewer will stop after each update, and wait for your keypress.
 is_pcl_wait_for_keypress: "false"
@@ -92,10 +92,10 @@ score_threshold: 15
 # ------------------- RANSAC Essential matrix -------------------
 
 findEssentialMat_prob: 0.999
-findEssentialMat_threshold: 1.0
+findEssentialMat_threshold: 0.8
 
 # ------------------- Triangulation -------------------
-min_triang_angle: 1.0
+min_triang_angle: 1
 max_ratio_between_max_angle_and_median_angle: 20
 
 # ------------------- Initialization -------------------
@@ -108,11 +108,11 @@ assumed_mean_pts_depth_during_vo_init: 0.8
 # ------------------- Tracking -------------------
 min_dist_between_two_keyframes: 0.03
 #max_possible_dist_to_prev_keyframe: 0.3
-max_possible_dist_to_prev_keyframe: 5
+max_possible_dist_to_prev_keyframe: 10
 
 # ------------------- Optimization -------------------
 is_enable_ba: "true"                 # Use bundle adjustment for camera and points in single frame. 1 for true, 0 for false
-num_prev_frames_to_opti_by_ba: 5      # default 5; <= 20. I set the "kBuffSize_" in "vo.h" as 20, so only previous 20 frames are stored.
+num_prev_frames_to_opti_by_ba: 10      # default 5; <= 20. I set the "kBuffSize_" in "vo.h" as 20, so only previous 20 frames are stored.
 information_matrix: "1.0 0.0 0.0 1.0"
 is_ba_fix_map_points: "true" # TO DEBUG: If I set it to true and optimize both camera pose and map points, there is huge error.
 # UPDATE_MAP_PTS: "" # This equals (!is_ba_fix_map_points) by default
