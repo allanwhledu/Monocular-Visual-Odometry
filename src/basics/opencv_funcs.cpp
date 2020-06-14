@@ -170,7 +170,7 @@ cv::Mat getNormalizedMat(const cv::Mat mat)
     return res;
 }
 
-double calcAngleBetweenTwoVectors(const cv::Mat &vec1, const cv::Mat &vec2)
+double calc_Angle_Between_Two_Vectors(const cv::Mat &vec1, const cv::Mat &vec2)
 {
     // cos(angle) = vec1.dot(vec2) / (||vec1|| * ||vec2||)
     assert(vec1.rows == vec2.rows && vec1.rows > vec1.cols);

@@ -93,10 +93,10 @@ private: // functions
 
   // Remove bad triangulation points
   // Change "pts3d_in_curr", return a new "inlier_matches".
-  void retainGoodTriangulationResult_();
+  void retain_good_triangulation_result();
 
 public: // ------------------------------- Tracking -------------------------------
-  bool checkLargeMoveForAddKeyFrame_(Frame::Ptr curr, Frame::Ptr ref);
+  bool check_Large_Move_For_Add_KeyFrame_(Frame::Ptr curr, Frame::Ptr ref);
   void optimizeMap_();
   bool poseEstimationPnP_();
 

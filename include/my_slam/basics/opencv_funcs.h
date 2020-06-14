@@ -39,7 +39,7 @@ double calcMeanDepth(const vector<cv::Point3f> &pts_3d);
 double scalePointPos(cv::Point3f &p, double scale);
 double calcMatNorm(const cv::Mat &mat);
 cv::Mat getNormalizedMat(const cv::Mat mat);
-double calcAngleBetweenTwoVectors(const cv::Mat &vec1, const cv::Mat &vec2);
+double calc_Angle_Between_Two_Vectors(const cv::Mat &vec1, const cv::Mat &vec2);
 
 // ---------------- Print ----------------
 void print_MatProperty(const cv::Mat &M); // print data type and size

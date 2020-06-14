@@ -2,12 +2,12 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
+      <config projectName="myslam" targetName="run_vo" />
+      <config projectName="myslam" targetName="optimization" />
+      <config projectName="myslam" targetName="display" />
       <config projectName="myslam" targetName="vo" />
       <config projectName="myslam" targetName="geometry" />
       <config projectName="myslam" targetName="basics" />
-      <config projectName="myslam" targetName="run_vo" />
-      <config projectName="myslam" targetName="display" />
-      <config projectName="myslam" targetName="optimization" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -17,11 +17,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8106da41-7894-4819-bdad-ae2fe6270399" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake_modules/FindG2O.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake_modules/FindG2O.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/my_slam/basics/eigen_funcs.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/my_slam/basics/eigen_funcs.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/optimization/g2o_ba.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/optimization/g2o_ba.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_config_and_read_yaml.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_config_and_read_yaml.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/run_vo.dir/run_vo.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/run_vo.dir/run_vo.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/basics.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/basics.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/basics.dir/basics/opencv_funcs.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/basics.dir/basics/opencv_funcs.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/geometry.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/geometry.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/geometry.dir/geometry/motion_estimation.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/geometry.dir/geometry/motion_estimation.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/vo.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/vo.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/vo.dir/vo/vo.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/vo.dir/vo/vo.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/vo.dir/vo/vo_addFrame.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/vo.dir/vo/vo_addFrame.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/my_slam/basics/opencv_funcs.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/my_slam/basics/opencv_funcs.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/my_slam/geometry/epipolar_geometry.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/my_slam/geometry/epipolar_geometry.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/my_slam/geometry/motion_estimation.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/my_slam/geometry/motion_estimation.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/my_slam/vo/vo.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/my_slam/vo/vo.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run_vo.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/run_vo.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/basics/opencv_funcs.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/basics/opencv_funcs.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/geometry/epipolar_geometry.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometry/epipolar_geometry.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/geometry/feature_match.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometry/feature_match.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/geometry/motion_estimation.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometry/motion_estimation.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vo/vo.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/vo/vo.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vo/vo_addFrame.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/vo/vo_addFrame.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,11 +102,11 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="CMake Application.run_vo" />
       <item itemvalue="CMake Application.basics" />
       <item itemvalue="CMake Application.display" />
       <item itemvalue="CMake Application.geometry" />
       <item itemvalue="CMake Application.optimization" />
+      <item itemvalue="CMake Application.run_vo" />
       <item itemvalue="CMake Application.vo" />
     </list>
   </component>
@@ -109,6 +125,10 @@
       <workItem from="1591604953454" duration="705000" />
       <workItem from="1591607218898" duration="15203000" />
       <workItem from="1591668738670" duration="17057000" />
+      <workItem from="1591780206175" duration="11000" />
+      <workItem from="1592128795240" duration="2854000" />
+      <workItem from="1592132840274" duration="369000" />
+      <workItem from="1592133569847" duration="8990000" />
     </task>
     <servers />
   </component>
@@ -124,38 +144,42 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="801" y="271" width="667" height="562" key="#com.intellij.ide.util.MemberChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1591670248941" />
-    <state width="1807" height="344" key="GridCell.Tab.0.bottom" timestamp="1591680922930">
+    <state x="785" y="526" key="#xdebugger.evaluate" timestamp="1592143353269">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="344" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1591680922930" />
-    <state width="1807" height="344" key="GridCell.Tab.0.center" timestamp="1591680922929">
+    <state x="785" y="526" key="#xdebugger.evaluate/67.27.1853.1053@67.27.1853.1053" timestamp="1592143353269" />
+    <state width="1807" height="278" key="GridCell.Tab.0.bottom" timestamp="1592144029794">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="344" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1591680922929" />
-    <state width="1807" height="344" key="GridCell.Tab.0.left" timestamp="1591680922929">
+    <state width="1807" height="278" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1592144029794" />
+    <state width="1807" height="278" key="GridCell.Tab.0.center" timestamp="1592144029794">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="344" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1591680922929" />
-    <state width="1807" height="344" key="GridCell.Tab.0.right" timestamp="1591680922930">
+    <state width="1807" height="278" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1592144029794" />
+    <state width="1807" height="278" key="GridCell.Tab.0.left" timestamp="1592144029793">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="344" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1591680922930" />
-    <state width="1807" height="344" key="GridCell.Tab.1.bottom" timestamp="1591680922931">
+    <state width="1807" height="278" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1592144029793" />
+    <state width="1807" height="278" key="GridCell.Tab.0.right" timestamp="1592144029794">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="344" key="GridCell.Tab.1.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1591680922931" />
-    <state width="1807" height="344" key="GridCell.Tab.1.center" timestamp="1591680922930">
+    <state width="1807" height="278" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1592144029794" />
+    <state width="1807" height="248" key="GridCell.Tab.1.bottom" timestamp="1592143717937">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="344" key="GridCell.Tab.1.center/67.27.1853.1053@67.27.1853.1053" timestamp="1591680922930" />
-    <state width="1807" height="344" key="GridCell.Tab.1.left" timestamp="1591680922930">
+    <state width="1807" height="248" key="GridCell.Tab.1.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1592143717937" />
+    <state width="1807" height="248" key="GridCell.Tab.1.center" timestamp="1592143717937">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="344" key="GridCell.Tab.1.left/67.27.1853.1053@67.27.1853.1053" timestamp="1591680922930" />
-    <state width="1807" height="344" key="GridCell.Tab.1.right" timestamp="1591680922931">
+    <state width="1807" height="248" key="GridCell.Tab.1.center/67.27.1853.1053@67.27.1853.1053" timestamp="1592143717937" />
+    <state width="1807" height="248" key="GridCell.Tab.1.left" timestamp="1592143717937">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="344" key="GridCell.Tab.1.right/67.27.1853.1053@67.27.1853.1053" timestamp="1591680922931" />
+    <state width="1807" height="248" key="GridCell.Tab.1.left/67.27.1853.1053@67.27.1853.1053" timestamp="1592143717937" />
+    <state width="1807" height="248" key="GridCell.Tab.1.right" timestamp="1592143717937">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="1807" height="248" key="GridCell.Tab.1.right/67.27.1853.1053@67.27.1853.1053" timestamp="1592143717937" />
     <state x="698" y="220" key="SettingsEditor" timestamp="1591607413730">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -164,10 +188,14 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="521" y="264" width="934" height="576" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/67.27.1853.1053@67.27.1853.1053" timestamp="1591603178016" />
-    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1591691666815">
+    <state x="684" y="291" width="618" height="522" key="find.popup" timestamp="1592138617173">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1591691666815" />
+    <state x="684" y="291" width="618" height="522" key="find.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1592138617173" />
+    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1592130456986">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1592130456986" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -176,6 +204,11 @@
           <url>file://$PROJECT_DIR$/run_vo.cpp</url>
           <line>63</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/vo/vo_addFrame.cpp</url>
+          <line>88</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

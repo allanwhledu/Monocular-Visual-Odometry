@@ -28,18 +28,18 @@ namespace geometry
  *      Whether choose E or H is based on the score defined in ORB-SLAM2 paper.
  *      If choose H, hen choose the pose which has largest norm z in camera direction. 
  */
-int helperEstimatePossibleRelativePosesByEpipolarGeometry(
-    const vector<cv::KeyPoint> &keypoints_1,
-    const vector<cv::KeyPoint> &keypoints_2,
-    const vector<cv::DMatch> &matches,
-    const cv::Mat &K, // camera intrinsics
+int helper_estimate_possible_relative_poses_by_epipolar_geometry(
+            const vector<cv::KeyPoint> &keypoints_1,
+            const vector<cv::KeyPoint> &keypoints_2,
+            const vector<cv::DMatch> &matches,
+            const cv::Mat &K, // camera intrinsics
     vector<cv::Mat> &list_R, vector<cv::Mat> &list_t,
-    vector<vector<cv::DMatch>> &list_matches,
-    vector<cv::Mat> &list_normal,
-    vector<vector<cv::Point3f>> &sols_pts3d_in_cam1,
-    bool is_print_res = false,
-    bool is_calc_homo = true,
-    bool is_frame_cam2_to_cam1 = true);
+            vector<vector<cv::DMatch>> &list_matches,
+            vector<cv::Mat> &list_normal,
+            vector<vector<cv::Point3f>> &sols_pts3d_in_cam1,
+            bool is_print_res = false,
+            bool is_calc_homo = true,
+            const bool is_frame_cam2_to_cam1 = true);
 
 /* @brief Compute:
  *      - The error of eppipolar onstraint
@@ -59,7 +59,7 @@ void helperEvalEppiAndTriangErrors(
  * @return t: t_cam2_to_cam1
  * @return inlier_matches: list of indices of keypoints
  */
-void helperEstiMotionByEssential(
+void helper_EstiMotion_By_Essential(
     const vector<cv::KeyPoint> &keypoints_1,
     const vector<cv::KeyPoint> &keypoints_2,
     const vector<cv::DMatch> &matches,
@@ -73,7 +73,7 @@ void helperEstiMotionByEssential(
  * @param: keypoints_1, keypoints_2, matches, K
  * @return vector<cv::DMatch>: the inlier matches
  */
-vector<cv::DMatch> helperFindInlierMatchesByEpipolarCons(
+vector<cv::DMatch> helper_Find_Inlier_Matches_By_EpipolarCons(
     const vector<cv::KeyPoint> &keypoints_1,
     const vector<cv::KeyPoint> &keypoints_2,
     const vector<cv::DMatch> &matches,

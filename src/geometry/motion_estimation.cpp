@@ -7,8 +7,7 @@ namespace my_slam
 {
 namespace geometry
 {
-
-int helperEstimatePossibleRelativePosesByEpipolarGeometry(
+int helper_estimate_possible_relative_poses_by_epipolar_geometry(
     const vector<cv::KeyPoint> &keypoints_1,
     const vector<cv::KeyPoint> &keypoints_2,
     const vector<cv::DMatch> &matches,
@@ -27,6 +26,7 @@ int helperEstimatePossibleRelativePosesByEpipolarGeometry(
     list_normal.clear();
     sols_pts3d_in_cam1.clear();
 
+    // 拿出所有的关键点进行匹配，然后将匹配到的点投影到相机归一化平面
     // Get matched points: pts_img1 & pts_img2
     // All computations after this step are operated on these matched points
     vector<cv::Point2f> pts_img1_all = convertkeypointsToPoint2f(keypoints_1);
@@ -41,6 +41,7 @@ int helperEstimatePossibleRelativePosesByEpipolarGeometry(
         pts_on_np2.push_back(pixel2CamNormPlane(pts_img2[i], K));
     }
 
+    // 然后既计算E矩阵，又计算H矩阵
     // Estiamte motion by Essential Matrix
     cv::Mat R_e, t_e, essential_matrix;
     vector<int> inliers_index_e; // index of the inliers
@@ -74,6 +75,7 @@ int helperEstimatePossibleRelativePosesByEpipolarGeometry(
                                            inliers_index_h, R_h_list, t_h_list, normal_list);
     }
 
+    // 然后获得两帧间的运动关系
     // Combine the motions from Essential/Homography
     // Return: vector<cv::Mat> list_R, list_t, list_normal;
     vector<vector<int>> list_inliers;
@@ -156,7 +158,7 @@ int helperEstimatePossibleRelativePosesByEpipolarGeometry(
     return best_sol;
 }
 
-void helperEstiMotionByEssential(
+void helper_EstiMotion_By_Essential(
     const vector<cv::KeyPoint> &keypoints_1,
     const vector<cv::KeyPoint> &keypoints_2,
     const vector<cv::DMatch> &matches,
@@ -166,10 +168,10 @@ void helperEstiMotionByEssential(
     bool is_print_res)
 {
     vector<cv::Point2f> pts_in_img1, pts_in_img2;
-    extractPtsFromMatches(keypoints_1, keypoints_2, matches, pts_in_img1, pts_in_img2);
+    extract_Pts_From_Matches(keypoints_1, keypoints_2, matches, pts_in_img1, pts_in_img2); //就是把匹配到的点拿出来
     cv::Mat essential_matrix;
     vector<int> inliers_index;
-    estiMotionByEssential(pts_in_img1, pts_in_img2, K, essential_matrix, R, t, inliers_index);
+    estiMotionByEssential(pts_in_img1, pts_in_img2, K, essential_matrix, R, t, inliers_index); //求了距离，以及内点序号？
     inlier_matches.clear();
     for (int idx : inliers_index)
     {
@@ -179,7 +181,7 @@ void helperEstiMotionByEssential(
     }
 }
 
-vector<cv::DMatch> helperFindInlierMatchesByEpipolarCons(
+vector<cv::DMatch> helper_Find_Inlier_Matches_By_EpipolarCons(
     const vector<cv::KeyPoint> &keypoints_1,
     const vector<cv::KeyPoint> &keypoints_2,
     const vector<cv::DMatch> &matches,
@@ -190,11 +192,11 @@ vector<cv::DMatch> helperFindInlierMatchesByEpipolarCons(
 
     // Estimate Essential to get inlier matches
     cv::Mat dummy_R, dummy_t;
-    helperEstiMotionByEssential(
-        keypoints_1, keypoints_2,
-        matches, K,
-        dummy_R, dummy_t, inlier_matches);
-    return inlier_matches;
+    helper_EstiMotion_By_Essential(
+            keypoints_1, keypoints_2,
+            matches, K,
+            dummy_R, dummy_t, inlier_matches);
+    return inlier_matches; //返回可以匹配的内点序号
 }
 
 
@@ -204,7 +206,7 @@ vector<cv::Point3f> helperTriangulatePoints(
     const vector<cv::DMatch> &curr_inlier_matches,
     const cv::Mat &T_curr_to_prev,
     const cv::Mat &K)
-{
+{   // 这里是一个函数复用，如果输入的是T，也可以变成R和t
     cv::Mat R_curr_to_prev, t_curr_to_prev;
     basics::getRtFromT(T_curr_to_prev, R_curr_to_prev, t_curr_to_prev);
     return helperTriangulatePoints(prev_kpts, curr_kpts, curr_inlier_matches,
@@ -219,9 +221,9 @@ vector<cv::Point3f> helperTriangulatePoints(
 {
     // Extract matched keypoints, and convert to camera normalized plane
     vector<cv::Point2f> pts_img1, pts_img2;
-    extractPtsFromMatches(prev_kpts, curr_kpts, curr_inlier_matches, pts_img1, pts_img2);
+    extract_Pts_From_Matches(prev_kpts, curr_kpts, curr_inlier_matches, pts_img1, pts_img2);
 
-    vector<cv::Point2f> pts_on_np1, pts_on_np2; // matched points on camera normalized plane
+    vector<cv::Point2f> pts_on_np1, pts_on_np2; // matched points on camera normalized plane 都放到归一化平面上
     for (const cv::Point2f &pt : pts_img1)
         pts_on_np1.push_back(pixel2CamNormPlane(pt, K));
     for (const cv::Point2f &pt : pts_img2)
@@ -237,7 +239,7 @@ vector<cv::Point3f> helperTriangulatePoints(
     vector<cv::Point3f> pts_3d_in_prev; // pts 3d pos to compute
     doTriangulation(pts_on_np1, pts_on_np2, R, t, inliers, pts_3d_in_prev);
 
-    // Change pos to current frame
+    // Change pos to current frame 上一帧中的3d点，放到下一帧中的位姿
     vector<cv::Point3f> pts_3d_in_curr;
     for (const cv::Point3f &pt3d : pts_3d_in_prev)
         pts_3d_in_curr.push_back(basics::transCoord(pt3d, R, t));
@@ -277,7 +279,7 @@ void helperEvalEppiAndTriangErrors(
         const vector<cv::DMatch> &matches = list_matches[i];
         const vector<cv::Point3f> &pts3d = sols_pts3d_in_cam1_by_triang[i];
         vector<cv::Point2f> inlpts1, inlpts2;
-        extractPtsFromMatches(keypoints_1, keypoints_2, matches, inlpts1, inlpts2);
+        extract_Pts_From_Matches(keypoints_1, keypoints_2, matches, inlpts1, inlpts2);
 
         // epipolar error
         double err_epipolar = computeEpipolarConsError(inlpts1, inlpts2, R, t, K);

@@ -65,7 +65,7 @@ void VisualOdometry::addFrame(Frame::Ptr frame)
     else if (vo_state_ == DOING_TRACKING)
     {
         printf("\nDoing tracking\n");
-        curr_->T_w_c_ = ref_->T_w_c_.clone(); // Initial estimation of the current pose
+        curr_->T_w_c_ = ref_->T_w_c_.clone(); // Initial estimation of the current pose 首先将当前帧的世界坐标转换定义成和上一帧相同
         bool is_pnp_good = poseEstimationPnP_(); //这里面要是实现特征点的检测、描述子的获取、特征点的匹配、3D坐标的获取，最后是PNP
         if (!is_pnp_good) // pnp failed. Print log.
         {
@@ -82,40 +82,40 @@ void VisualOdometry::addFrame(Frame::Ptr frame)
         }
         else // pnp good
         {
-            callBundleAdjustment_();
+            callBundleAdjustment_(); //todo 之后在看这个ba吧
             // -- Insert a keyframe is motion is large. Then, triangulate more points
-            if (checkLargeMoveForAddKeyFrame_(curr_, ref_))
+            if (check_Large_Move_For_Add_KeyFrame_(curr_, ref_)) //看看是不是关键帧 todo 关键帧要做什么？
             {
-                // Feature matching
+                // Feature matching 不是关键帧的时候是当前帧和路标点进行比较，如果是关键帧就要和上一帧进行比较了 todo 可以实施不要关键帧呢？是不是会一直连续进行
                 geometry::matchFeatures(ref_->descriptors_, curr_->descriptors_, curr_->matches_with_ref_);
 
-                // Find inliers by epipolar constraint
-                curr_->inliers_matches_with_ref_ = geometry::helperFindInlierMatchesByEpipolarCons(
-                    ref_->keypoints_, curr_->keypoints_, curr_->matches_with_ref_, K);
+                // Find inliers by epipolar constraint //求本质矩阵的时候，给出内点的序号？
+                curr_->inliers_matches_with_ref_ = geometry::helper_Find_Inlier_Matches_By_EpipolarCons(
+                        ref_->keypoints_, curr_->keypoints_, curr_->matches_with_ref_, K);
 
                 // Print
                 printf("For triangulation: Matches with prev keyframe: %d; Num inliers: %d \n",
                        (int)curr_->matches_with_ref_.size(), (int)curr_->inliers_matches_with_ref_.size());
-
-                // Triangulate points
+                // 所以，当是关键帧的时候，就用2d-2d来进行帧间匹配的啊！！！
+                // Triangulate points 求ref帧的点在curr中的位姿
                 curr_->inliers_pts3d_ = geometry::helperTriangulatePoints(
                     ref_->keypoints_, curr_->keypoints_,
                     curr_->inliers_matches_with_ref_, getMotionFromFrame1to2(curr_, ref_), K);
 
-                retainGoodTriangulationResult_();
+                retain_good_triangulation_result();
 
                 // -- Update state
                 pushCurrPointsToMap_();
-                optimizeMap_();
+                optimizeMap_(); //将路标点还进行了一次丢弃
                 addKeyFrame_(curr_);
             }
         }
     }
 
-    // Print relative motion
+    // Print relative motion //刚才那一帧流程下来不是keyframe有点可惜
     if (vo_state_ == DOING_TRACKING)
     {
-        static cv::Mat T_w_to_prev = cv::Mat::eye(4, 4, CV_64F);
+        static cv::Mat T_w_to_prev = cv::Mat::eye(4, 4, CV_64F);  //TODO 为什么上一帧是111，有问题吧？
         const cv::Mat &T_w_to_curr = curr_->T_w_c_;
         cv::Mat T_prev_to_curr = T_w_to_prev.inv() * T_w_to_curr;
         cv::Mat R, t;

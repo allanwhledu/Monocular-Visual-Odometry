@@ -71,8 +71,8 @@ int main(int argc, char **argv)
     basics::makedirs(output_folder + "/");
 
     // -- Read image filenames
-    vector<string>
-        image_paths;
+    vector<string> image_paths;
+
     if (IS_DEBUGGING) // Read certain images specified below.
     {
         string folder = "/home/feiyu/Documents/Projects/EECS432_CV_VO/data/test_data/";

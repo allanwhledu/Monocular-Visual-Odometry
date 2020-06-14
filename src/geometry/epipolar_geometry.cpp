@@ -153,7 +153,7 @@ void doTriangulation(
     cv::Mat pts4d_in_world;
     cv::triangulatePoints(
         T_cam1_to_world, T_cam2_to_world,
-        inlier_pts_on_np1, inlier_pts_on_np2, pts4d_in_world);
+        inlier_pts_on_np1, inlier_pts_on_np2, pts4d_in_world); //pts4d_in_world是输出，2d 2d 变换——>输出
 
     // change to homogeneous coords
     vector<cv::Point3f> pts3d_in_world;
@@ -254,7 +254,7 @@ void extractPtsFromMatches(
     }
 }
 
-void extractPtsFromMatches(
+void extract_Pts_From_Matches(
     const vector<cv::KeyPoint> &keypoints_1,
     const vector<cv::KeyPoint> &keypoints_2,
     const vector<cv::DMatch> &matches,

@@ -6,14 +6,6 @@
 
 #IncludeRegexTransform: 
 
-../include/my_slam/basics/basics.h
-my_slam/common_include.h
-../include/my_slam/basics/my_slam/common_include.h
-
-../include/my_slam/basics/config.h
-my_slam/common_include.h
-../include/my_slam/basics/my_slam/common_include.h
-
 ../include/my_slam/basics/eigen_funcs.h
 my_slam/common_include.h
 ../include/my_slam/basics/my_slam/common_include.h
@@ -31,18 +23,6 @@ opencv2/core/eigen.hpp
 ../include/my_slam/basics/opencv_funcs.h
 my_slam/common_include.h
 ../include/my_slam/basics/my_slam/common_include.h
-
-../include/my_slam/basics/yaml.h
-opencv2/core/core.hpp
--
-iostream
--
-string
--
-vector
--
-assert.h
--
 
 ../include/my_slam/common_include.h
 stdio.h
@@ -84,30 +64,6 @@ opencv2/highgui/highgui.hpp
 opencv2/calib3d/calib3d.hpp
 -
 
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/basics/basics.cpp
-my_slam/basics/basics.h
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/basics/my_slam/basics/basics.h
-iterator
--
-assert.h
--
-chrono
--
-ctime
--
-sys/types.h
--
-sys/stat.h
--
-unistd.h
--
-stdlib.h
--
-
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/basics/config.cpp
-my_slam/basics/config.h
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/basics/my_slam/basics/config.h
-
 /home/sjtu_wanghaili/Monocular-Visual-Odometry/src/basics/eigen_funcs.cpp
 my_slam/basics/eigen_funcs.h
 /home/sjtu_wanghaili/Monocular-Visual-Odometry/src/basics/my_slam/basics/eigen_funcs.h
@@ -117,10 +73,6 @@ my_slam/basics/opencv_funcs.h
 /home/sjtu_wanghaili/Monocular-Visual-Odometry/src/basics/opencv_funcs.cpp
 my_slam/basics/opencv_funcs.h
 /home/sjtu_wanghaili/Monocular-Visual-Odometry/src/basics/my_slam/basics/opencv_funcs.h
-
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/basics/yaml.cpp
-my_slam/basics/yaml.h
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/basics/my_slam/basics/yaml.h
 
 /home/sjtu_wanghaili/slambook2/3rdparty/Sophus/sophus/se3.h
 so3.h

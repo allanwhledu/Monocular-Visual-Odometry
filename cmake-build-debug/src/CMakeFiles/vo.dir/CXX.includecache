@@ -178,7 +178,3 @@ my_slam/optimization/g2o_ba.h
 numeric
 -
 
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/vo_addFrame.cpp
-my_slam/vo/vo.h
-/home/sjtu_wanghaili/Monocular-Visual-Odometry/src/vo/my_slam/vo/vo.h
-

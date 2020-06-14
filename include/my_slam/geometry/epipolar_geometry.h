@@ -99,7 +99,7 @@ void extractPtsFromMatches(
     const vector<cv::DMatch> &matches,
     vector<cv::Point2f> &pts1, vector<cv::Point2f> &pts2);
 
-void extractPtsFromMatches(
+void extract_Pts_From_Matches(
     const vector<cv::KeyPoint> &keypoints_1, const vector<cv::KeyPoint> &keypoints_2,
     const vector<cv::DMatch> &matches,
     vector<cv::Point2f> &pts1, vector<cv::Point2f> &pts2);

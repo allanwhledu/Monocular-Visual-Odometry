@@ -25,10 +25,10 @@ void VisualOdometry::getMappointsInCurrentView_(
     for (auto &iter_map_point : map_->map_points_)
     {
         MapPoint::Ptr &p = iter_map_point.second;
-        if (curr_->isInFrame(p->pos_)) // check if p in curr frame image
+        if (curr_->isInFrame(p->pos_)) // check if p in curr frame image（判断该点是否能被当前相机看到）
         {
             // -- add to candidate_mappoints_in_map
-            candidate_mappoints_in_map.push_back(p);
+            candidate_mappoints_in_map.push_back(p); //若可以看到，就放入到候选地图点当中
             corresponding_mappoints_descriptors.push_back(p->descriptor_);
             p->visible_times_++;
         }
@@ -44,6 +44,7 @@ void VisualOdometry::estimateMotionAnd3DPoints_()
     vector<cv::Point3f> &pts3d_in_curr = curr_->inliers_pts3d_;
     vector<cv::DMatch> &inliers_matches_for_3d = curr_->inliers_matches_for_3d_;
     cv::Mat &T = curr_->T_w_c_;
+    cv::Mat &K = curr_->camera_->K_;
 
     // -- Start: call this big function to compute everything
     // (1) motion from Essential && Homography, (2) inliers indices, (3) triangulated points
@@ -52,14 +53,15 @@ void VisualOdometry::estimateMotionAnd3DPoints_()
     vector<vector<cv::Point3f>> sols_pts3d_in_cam1_by_triang;
     bool is_print_res = false, is_frame_cam2_to_cam1 = true;
     bool is_calc_homo = true;
-    cv::Mat &K = curr_->camera_->K_;
-    int best_sol = geometry::helperEstimatePossibleRelativePosesByEpipolarGeometry(
-        /*Input*/
-        ref_->keypoints_, curr_->keypoints_, curr_->matches_with_ref_, K,
-        /*Output*/
-        list_R, list_t, list_matches, list_normal, sols_pts3d_in_cam1_by_triang,
-        /*settings*/
-        is_print_res, is_calc_homo, is_frame_cam2_to_cam1);
+
+    // 比较ref帧和curr帧之间的运动关系，直接是使用2d-2d的方式进行的
+    int best_sol = geometry::helper_estimate_possible_relative_poses_by_epipolar_geometry(
+            /*Input*/
+            ref_->keypoints_, curr_->keypoints_, curr_->matches_with_ref_, K,
+            /*Output*/
+            list_R, list_t, list_matches, list_normal, sols_pts3d_in_cam1_by_triang,
+            /*settings*/
+            is_print_res, is_calc_homo, is_frame_cam2_to_cam1);
 
     // -- Only retain the data of the best solution
     const cv::Mat &R_curr_to_prev = list_R[best_sol];
@@ -76,7 +78,7 @@ void VisualOdometry::estimateMotionAnd3DPoints_()
     T = ref_->T_w_c_ * basics::convertRt2T(R_curr_to_prev, t_curr_to_prev).inv();
 
     // Get points that are used for triangulating new map points
-    retainGoodTriangulationResult_();
+    retain_good_triangulation_result();
 
     int N = curr_->inliers_pts3d_.size();
     if (N < 20)
@@ -165,8 +167,8 @@ bool VisualOdometry::isInitialized()
 
 // Compute the triangulation angle of each point, and get the statistics.
 // Remove those with a too large or too small angle.
-void VisualOdometry::retainGoodTriangulationResult_()
-{
+void VisualOdometry::retain_good_triangulation_result()
+{   // TODO 这里是不是也可以实施直接不要了？
     static const double min_triang_angle = basics::Config::get<double>("min_triang_angle");
     static const double max_ratio_between_max_angle_and_median_angle =
         basics::Config::get<double>("max_ratio_between_max_angle_and_median_angle");
@@ -177,7 +179,7 @@ void VisualOdometry::retainGoodTriangulationResult_()
 
     // -- Output
     // 1. generate this:
-    vector<double> &angles = curr_->triangulation_angles_of_inliers_;
+    vector<double> &angles = curr_->triangulation_angles_of_inliers_; //刚才上一部提取到的匹配的关键点（内点）
     // 2. update this:
     //vector<cv::Point3f> pts3d_in_curr:  curr_ -> inliers_pts3d_;
     // 3. generate this:
@@ -193,15 +195,15 @@ void VisualOdometry::retainGoodTriangulationResult_()
         cv::Mat p_in_world = basics::point3f_to_mat3x1(basics::preTranslatePoint3f(p_in_curr, curr_->T_w_c_));
         cv::Mat vec_p_to_cam_curr = basics::getPosFromT(curr_->T_w_c_) - p_in_world;
         cv::Mat vec_p_to_cam_prev = basics::getPosFromT(ref_->T_w_c_) - p_in_world;
-        double angle = basics::calcAngleBetweenTwoVectors(vec_p_to_cam_curr, vec_p_to_cam_prev);
+        double angle = basics::calc_Angle_Between_Two_Vectors(vec_p_to_cam_curr, vec_p_to_cam_prev);
         angles.push_back(angle / 3.1415926 * 180.0);
     }
 
-    // Get statistics
+    // Get statistics 这里新建一个vector用来排序
     vector<double> sort_a = angles;
     sort(sort_a.begin(), sort_a.end());
-    double mean_angle = accumulate(sort_a.begin(), sort_a.end(), 0.0) / N;
-    double median_angle = sort_a[N / 2];
+    double mean_angle = accumulate(sort_a.begin(), sort_a.end(), 0.0) / N; //求平均值
+    double median_angle = sort_a[N / 2]; // 求中间值
     printf("Triangulation angle: mean=%f, median=%f, min=%f, max=%f\n",
            mean_angle,   // mean
            median_angle, // median
@@ -211,17 +213,17 @@ void VisualOdometry::retainGoodTriangulationResult_()
 
     // Get good triangulation points
 
-    vector<cv::Point3f> old_inlier_points = curr_->inliers_pts3d_;
+    vector<cv::Point3f> old_inlier_points = curr_->inliers_pts3d_; //开始之前将老的内点存下来
     curr_->inliers_pts3d_.clear();
 
     vector<double> old_angles = angles;
     angles.clear();
 
-    for (int i = 0; i < N; i++)
+    for (int i = 0; i < N; i++)  //TODO 这里就是问题所在了！！！如何取舍，这里是按照平均值均值等来做的
     {
-        if (old_angles[i] < min_triang_angle ||
-            old_angles[i] / median_angle > max_ratio_between_max_angle_and_median_angle)
-            continue;
+//        if (old_angles[i] < min_triang_angle ||
+//            old_angles[i] / median_angle > max_ratio_between_max_angle_and_median_angle) // 比均值大多少比例，就出局
+//            continue;
         cv::DMatch dmatch = curr_->inliers_matches_with_ref_[i];
         curr_->inliers_matches_for_3d_.push_back(dmatch);
         curr_->inliers_pts3d_.push_back(old_inlier_points[i]);
@@ -231,23 +233,23 @@ void VisualOdometry::retainGoodTriangulationResult_()
 }
 
 // ------------------- Tracking -------------------
-bool VisualOdometry::checkLargeMoveForAddKeyFrame_(Frame::Ptr curr, Frame::Ptr ref)
+bool VisualOdometry::check_Large_Move_For_Add_KeyFrame_(Frame::Ptr curr, Frame::Ptr ref)
 {
-    cv::Mat T_key_to_curr = ref->T_w_c_.inv() * curr->T_w_c_;
+    cv::Mat T_key_to_curr = ref->T_w_c_.inv() * curr->T_w_c_; //两帧之间的位姿差距
     cv::Mat R, t, R_vec;
-    basics::getRtFromT(T_key_to_curr, R, t);
-    cv::Rodrigues(R, R_vec);
+    basics::getRtFromT(T_key_to_curr, R, t); // 把T变回R和t
+    cv::Rodrigues(R, R_vec); //得到旋转向量
 
     static const double min_dist_between_two_keyframes = basics::Config::get<double>("min_dist_between_two_keyframes");
     // static const double min_rotation_angle_betwen_two_keyframes = basics::Config::get<double>("min_rotation_angle_betwen_two_keyframes");
-
+    // 计算距离和夹角
     double moved_dist = basics::calcMatNorm(t);
     double rotated_angle = basics::calcMatNorm(R_vec);
 
     printf("Wrt prev keyframe, relative dist = %.5f, angle = %.5f\n", moved_dist, rotated_angle);
 
     // Satisfy each one will be a good keyframe
-    bool res = moved_dist > min_dist_between_two_keyframes;
+    bool res = moved_dist > min_dist_between_two_keyframes; //如果大于最小距离就是判断是一个keyfram
     return res;
 }
 
@@ -255,56 +257,56 @@ bool VisualOdometry::poseEstimationPnP_()
 {
     // -- From the local map, find the keypoints that fall into the current view
     // todo 这一步是干啥用的？是找到已经有3D坐标的已知地图点？然后赋值其世界坐标和描述子
-    vector<MapPoint::Ptr> candidate_mappoints_in_map;
-    cv::Mat corresponding_mappoints_descriptors;
-    getMappointsInCurrentView_(candidate_mappoints_in_map, corresponding_mappoints_descriptors);
+    vector<MapPoint::Ptr> candidate_mappoints_in_map; // 将要从地图中选出来的可能的候选路标点
+    cv::Mat corresponding_mappoints_descriptors; // 这些路标点的描述子
+    getMappointsInCurrentView_(candidate_mappoints_in_map, corresponding_mappoints_descriptors); //拿到可以观测到的点
 
     // -- Compare descriptors to find matches, and extract 3d 2d correspondance
-    // 这里是要去找到3D和2D之间的匹配，和2D-2D匹配是不太一样的。
+    // 这里是要去找到3D和2D之间的匹配，和2D-2D匹配是应该一样的，都是对比描述子
     geometry::matchFeatures(corresponding_mappoints_descriptors, curr_->descriptors_, curr_->matches_with_map_);
     const int num_matches = curr_->matches_with_map_.size();
     cout << "Number of 3d-2d pairs: " << num_matches << endl;
-    vector<cv::Point3f> pts_3d;
+    vector<cv::Point3f> pts_3d; //这里就是把刚才能够匹配上的2d和3d点都拿出来，2d点是在当前帧的图像中的，3d点是路标点中的一部分
     vector<cv::Point2f> pts_2d; // a point's 2d pos in image2 pixel curr_
     for (int i = 0; i < num_matches; i++)
     {
-        cv::DMatch &match = curr_->matches_with_map_[i];
+        cv::DMatch &match = curr_->matches_with_map_[i]; // matches中应该是匹配点的序号，然后在下面用这个序号找出路标点
         MapPoint::Ptr mappoint = candidate_mappoints_in_map[match.queryIdx];
         pts_3d.push_back(mappoint->pos_);
-        pts_2d.push_back(curr_->keypoints_[match.trainIdx].pt);
+        pts_2d.push_back(curr_->keypoints_[match.trainIdx].pt); //2d点和路标都拿出来push
     }
 
     // -- Solve PnP, get T_world_to_camera
-    constexpr int kMinPtsForPnP = 5;
+    constexpr int kMinPtsForPnP = 5; // 这个kMinPtsForPnP是用来做什么的？ 目前已经有了3d点和2d点了
     static const double max_possible_dist_to_prev_keyframe =
-        basics::Config::get<double>("max_possible_dist_to_prev_keyframe");
+        basics::Config::get<double>("max_possible_dist_to_prev_keyframe"); //取得参数：和前一帧间的最大距离
 
-    cv::Mat pnp_inliers_mask; // type = 32SC1, size = 999x1
+    cv::Mat pnp_inliers_mask; // type = 32SC1, size = 999x1 todo pnp_inliers_mask 这个变量也是不太明白的
     cv::Mat R_vec, t;
 
-    bool is_pnp_good = num_matches >= kMinPtsForPnP;
+    bool is_pnp_good = num_matches >= kMinPtsForPnP; //这个kMinPtsForPnP是用来做什么的？ 用来限制最少的3d2d匹配点（描述子找出的）
     if (is_pnp_good)
     {
         bool useExtrinsicGuess = false;
-        int iterationsCount = 100;
-        float reprojectionError = 2.0;
-        double confidence = 0.999;
+        int iterationsCount = 500;
+        float reprojectionError = 0.8;
+        double confidence = 0.999; //这里是在跟踪中的一些参数，yaml里面的都仅仅在初始化的时候使用了
         cv::solvePnPRansac(pts_3d, pts_2d, curr_->camera_->K_, cv::Mat(), R_vec, t,
                            useExtrinsicGuess,
-                           iterationsCount, reprojectionError, confidence, pnp_inliers_mask);
+                           iterationsCount, reprojectionError, confidence, pnp_inliers_mask); //todo 这些opencv的参数值得了解改善
         // Output two variables:
         //      1. curr_->matches_with_map_
         //      2. curr_->T_w_c_
 
         cv::Mat R;
-        cv::Rodrigues(R_vec, R); // angle-axis rotation to 3x3 rotation matrix
+        cv::Rodrigues(R_vec, R); // angle-axis rotation to 3x3 rotation matrix 将opencv得到的r_vec转变为我们常用的r
 
         // -- Get inlier matches used in PnP
-        vector<cv::Point2f> tmp_pts_2d;
-        vector<cv::Point3f *> inlier_candidates_pos;
-        vector<MapPoint::Ptr> inlier_candidates;
-        vector<cv::DMatch> tmp_matches_with_map_;
-        int num_inliers = pnp_inliers_mask.rows;
+        vector<cv::Point2f> tmp_pts_2d; //临时的2d点？？
+        vector<cv::Point3f *> inlier_candidates_pos; //临时的内点的3d位姿？
+        vector<MapPoint::Ptr> inlier_candidates; //内点的坐标点
+        vector<cv::DMatch> tmp_matches_with_map_; //临时
+        int num_inliers = pnp_inliers_mask.rows; //todo 就是这个之前不清楚是干什么的，原来是ransac之后的内点个数？？
         for (int i = 0; i < num_inliers; i++)
         {
             int good_idx = pnp_inliers_mask.at<int>(i, 0);
@@ -319,22 +321,22 @@ bool VisualOdometry::poseEstimationPnP_()
             // good pts 3d
             MapPoint::Ptr inlier_mappoint = candidate_mappoints_in_map[match.queryIdx];
             inlier_candidates_pos.push_back(&(inlier_mappoint->pos_));
-            inlier_mappoint->matched_times_++;
+            inlier_mappoint->matched_times_++;  //之上的这些就是把ransac找出来的内点重新挑选出来存好！！！
 
-            // Update graph info
+            // Update graph info  todo 这里更新图像信息之后再看
             curr_->inliers_to_mappt_connections_[match.trainIdx] = PtConn{-1, inlier_mappoint->id_};
         }
-        pts_2d.swap(tmp_pts_2d);
-        curr_->matches_with_map_.swap(tmp_matches_with_map_);
+        pts_2d.swap(tmp_pts_2d); //opencv中swap是做什么？ 哦，好像是pts_2d之后就只有tmp这些点了，互相交换了元素
+        curr_->matches_with_map_.swap(tmp_matches_with_map_); //对以的匹配序号也是缩小到只有内点的好匹配
 
         // -- Update current camera pos
         curr_->T_w_c_ = basics::convertRt2T(R, t).inv();
 
-        // -- Check relative motion with previous frame
+        // -- Check relative motion with previous frame //这里用两帧各自的世界坐标相减看看距离
         cv::Mat R_prev, t_prev, R_curr, t_curr;
         basics::getRtFromT(curr_->T_w_c_, R_prev, t_prev);
         basics::getRtFromT(prev_->T_w_c_, R_curr, t_curr);
-        double dist_to_prev_keyframe = basics::calcMatNorm(t_prev - t_curr);
+        double dist_to_prev_keyframe = basics::calcMatNorm(t_prev - t_curr); //如果距离太大，则说明pnp不是good的，失败
         if (dist_to_prev_keyframe >= max_possible_dist_to_prev_keyframe)
         {
             printf("PnP: distance with prev keyframe is %.3f. Threshold is %.3f.\n",
@@ -345,11 +347,11 @@ bool VisualOdometry::poseEstimationPnP_()
         printf("PnP num inlier matches: %d.\n", num_matches);
     }
 
-    if (!is_pnp_good) // Set this frame's pose the same as previous frame
+    if (!is_pnp_good) // Set this frame's pose the same as previous frame 如果不成功，那么当前帧就默认是和上一帧的位姿是一样的！！！
     {
         curr_->T_w_c_ = prev_->T_w_c_.clone();
     }
-    return is_pnp_good;
+    return is_pnp_good; //返回pnp的结果
 }
 
 // bundle adjustment
@@ -471,19 +473,19 @@ void VisualOdometry::optimizeMap_()
             continue;
         }
 
-        float match_ratio = float(iter->second->matched_times_) / iter->second->visible_times_;
-        if (match_ratio < map_point_erase_ratio)
-        {
-            iter = map_->map_points_.erase(iter);
-            continue;
-        }
+//        float match_ratio = float(iter->second->matched_times_) / iter->second->visible_times_;
+//        if (match_ratio < map_point_erase_ratio)
+//        {
+//            iter = map_->map_points_.erase(iter);
+//            continue;
+//        }
 
-        double angle = getViewAngle_(curr_, iter->second);
-        if (angle > M_PI / 4.)
-        {
-            iter = map_->map_points_.erase(iter);
-            continue;
-        }
+//        double angle = getViewAngle_(curr_, iter->second);
+//        if (angle > M_PI / 4.)
+//        {
+//            iter = map_->map_points_.erase(iter);
+//            continue;
+//        }
         iter++;
     }
 
@@ -518,7 +520,7 @@ void VisualOdometry::pushCurrPointsToMap_()
 
         // Points already triangulated in previous frames.
         //      Just find the mappoint, no need to create new.
-        if (1 && ref_->isMappoint(dm.queryIdx))
+        if (1 && ref_->isMappoint(dm.queryIdx)) //判断是不是已经在路标点李
         {
             map_point_id = ref_->inliers_to_mappt_connections_[dm.queryIdx].pt_map_idx;
         }
@@ -541,7 +543,7 @@ void VisualOdometry::pushCurrPointsToMap_()
             // Push to map
             map_->insertMapPoint(map_point);
         }
-        // Update graph connection of current frame
+        // Update graph connection of current frame todo 更新图像还暂时没有看
         inliers_to_mappt_connections.insert({pt_idx, PtConn{dm.queryIdx, map_point_id}});
     }
     return;

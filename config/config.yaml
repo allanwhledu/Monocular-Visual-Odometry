@@ -57,7 +57,8 @@ kitti00: # kitti00 dataset
 # ================================================
 max_num_imgs_to_proc: 500
 # is_pcl_wait_for_keypress: "true" # If true, PCL Viewer will stop after each update, and wait for your keypress.
-is_pcl_wait_for_keypress: "false"
+is_pcl_wait_for_keypress: "true"
+#is_pcl_wait_for_keypress: "false"
 cv_waitkey_time: 30
 save_predicted_traj_to: /home/sjtu_wanghaili/Monocular-Visual-Odometry/data/test_data/cam_traj.txt
 output_folder: "output"
@@ -108,7 +109,7 @@ assumed_mean_pts_depth_during_vo_init: 0.8
 # ------------------- Tracking -------------------
 min_dist_between_two_keyframes: 0.03
 #max_possible_dist_to_prev_keyframe: 0.3
-max_possible_dist_to_prev_keyframe: 10
+max_possible_dist_to_prev_keyframe: 1
 
 # ------------------- Optimization -------------------
 is_enable_ba: "true"                 # Use bundle adjustment for camera and points in single frame. 1 for true, 0 for false

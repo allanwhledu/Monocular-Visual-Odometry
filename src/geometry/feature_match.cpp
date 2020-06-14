@@ -31,6 +31,7 @@ void calcKeyPoints(
     //          int 	fastThreshold = 20
 
     // compute
+    // 都是new出来orb的特征点，然后再从image中找出来放进去
     orb->detect(image, keypoints);
     selectUniformKptsByGrid(keypoints, image.rows, image.cols);
 }
@@ -117,7 +118,7 @@ void matchFeatures(
                 min_dis = dist;
             if (dist > max_dis)
                 max_dis = dist;
-        }
+        } // 为什么这里之前在3d2d比较的时候没有用？但是搜索出来只有种类，可能刚才看忘了
         distance_threshold = std::max<float>(min_dis * match_ratio, 50.0);
         // 这里将经验30调到了50
         // Another way of getting the minimum:
